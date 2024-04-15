@@ -1,18 +1,13 @@
-FROM debian:buster
+FROM debian:bookworm
 
-ENV ONIONSHARE_VERSION=v2.3.1
-ENV POETRY_VERSION=1.1.4
+ENV ONIONSHARE_VERSION=2.6.1
+ENV PIPX_BIN_DIR=/usr/local/bin
 
-RUN apt-get update && apt-get -yq install python3-flask python3-stem python3-pyqt5 python3-crypto python3-socks python-nautilus tor obfs4proxy python3-pytest build-essential fakeroot python3-all python3-stdeb dh-python git python3-pip
-RUN pip3 install poetry==$POETRY_VERSION
+RUN apt-get update && apt-get -yq --no-install-recommends install tor pipx
 
-WORKDIR /app
-
-RUN git clone https://github.com/micahflee/onionshare.git && cd onionshare && git checkout $ONIONSHARE_VERSION
-RUN cd onionshare/cli && poetry install
+RUN pipx install onionshare-cli==$ONIONSHARE_VERSION
 
 VOLUME ["/shared"]
 
-WORKDIR /app/onionshare/cli
-ENTRYPOINT ["/usr/local/bin/poetry"]
-CMD ["run", "onionshare-cli", "/shared"]
+ENTRYPOINT ["/usr/local/bin/onionshare-cli"]
+CMD ["/shared"]
