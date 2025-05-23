@@ -1,6 +1,6 @@
 FROM debian:bookworm
 
-ENV ONIONSHARE_VERSION=2.6.1
+ENV ONIONSHARE_VERSION=2.6.3
 ENV PIPX_BIN_DIR=/usr/local/bin
 
 RUN apt-get update && apt-get -yq --no-install-recommends install tor pipx
