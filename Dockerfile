@@ -1,10 +1,11 @@
-FROM debian:bookworm
+FROM python:3.12-slim
 
 ENV ONIONSHARE_VERSION=2.6.3
 ENV PIPX_BIN_DIR=/usr/local/bin
 
-RUN apt-get update && apt-get -yq --no-install-recommends install tor pipx
+RUN apt-get update && apt-get -yq --no-install-recommends install tor
 
+RUN python -mpip install pipx
 RUN pipx install onionshare-cli==$ONIONSHARE_VERSION
 
 VOLUME ["/shared"]
